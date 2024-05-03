@@ -22,7 +22,7 @@ var AlignCenter = NewCommand([]byte{ESC, byte('a'), byte(1)})
 // Justify right command
 var AlignRight = NewCommand([]byte{ESC, byte('a'), byte(2)})
 
-// End of transaction command
+// End of transmission command
 var EOTCommand = NewCommand([]byte{ESC, EOT})
 
 // var textCommand = NewCommand([]byte(message + " \n\n"))

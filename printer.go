@@ -27,11 +27,12 @@ func (p *Printer) Close() {
 	p.doneCallback()
 }
 
+// NewPrinter returns a new printer for a given vendor and product productID
+// It returns an error if the printer is not found or if the endpoint is not available
 func NewPrinter(vendorID, productID gousb.ID) (*Printer, error) {
 
 	// Initialize a new Context.
 	ctx := gousb.NewContext()
-	defer ctx.Close()
 
 	// Open any device with a given VID/PID using a convenience function.
 	dev, err := ctx.OpenDeviceWithVIDPID(vendorID, productID)

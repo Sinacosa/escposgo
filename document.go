@@ -1,5 +1,7 @@
 package escposgo
 
+const PAGE_WIDTH = 32
+
 type Doc interface {
 	ToBytes() []byte
 }
@@ -35,7 +37,6 @@ type Title struct {
 }
 
 func (t *Title) ToBytes() []byte {
-
 	bytes := []byte{}
 	bytes = append(bytes, SelectTitleFontSizeCommand.toByteArray()...)
 	bytes = append(bytes, []byte(t.content)...)
@@ -66,8 +67,6 @@ func (b *Body) NewLine() *Body {
 }
 
 func (b *Body) ToBytes() []byte {
-	// append small font command
-	// append justify right
 	bytes := []byte{}
 	bytes = append(bytes, SelectBodyFontSizeCommand.toByteArray()...)
 	bytes = append(bytes, []byte(b.content)...)
@@ -75,5 +74,76 @@ func (b *Body) ToBytes() []byte {
 	if b.newLine {
 		bytes = append(bytes, []byte("\n")...)
 	}
+	return bytes
+}
+
+type Table struct {
+	Header Row
+	Rows   []Row
+	Footer Row
+}
+
+func (t *Table) ToBytes() []byte {
+	// encode the title data
+	// measure the spaces
+	bytes := []byte{}
+	bytes = append(bytes, t.Header.ToBytes()...)
+	// add the separator
+	bytes = append(bytes, NewSeparator('=').ToBytes()...)
+	for _, row := range t.Rows {
+		bytes = append(bytes, row.ToBytes()...)
+	}
+	bytes = append(bytes, NewSeparator('=').ToBytes()...)
+	bytes = append(bytes, t.Footer.ToBytes()...)
+	return bytes
+}
+
+func NewTable(header Row, rows []Row, footer Row) *Table {
+	return &Table{
+		Header: header,
+		Rows:   rows,
+		Footer: footer,
+	}
+}
+
+type Row struct {
+	Left  string
+	Right string
+}
+
+func (r Row) ToBytes() []byte {
+	numSpaces := PAGE_WIDTH - (len(r.Left) + len(r.Right))
+	bytes := []byte{}
+	bytes = append(bytes, []byte(r.Left)...)
+	for i := 0; i < numSpaces; i++ {
+		bytes = append(bytes, byte(' '))
+	}
+	bytes = append(bytes, []byte(r.Right)...)
+	return bytes
+}
+
+func NewRow(left, right string) Row {
+	return Row{
+		Left:  left,
+		Right: right,
+	}
+}
+
+type Separator struct {
+	rune rune
+}
+
+func NewSeparator(rune rune) *Separator {
+	return &Separator{
+		rune: rune,
+	}
+}
+
+func (s *Separator) ToBytes() []byte {
+	bytes := []byte{byte('\n')}
+	for i := 0; i < PAGE_WIDTH; i++ {
+		bytes = append(bytes, byte(s.rune))
+	}
+	bytes = append(bytes, byte('\n'))
 	return bytes
 }
