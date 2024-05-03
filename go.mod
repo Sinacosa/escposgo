@@ -1,4 +1,4 @@
-module escposgo
+module github.com/Sinacosa/escposgo
 
 go 1.22.1
 
