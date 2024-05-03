@@ -2,6 +2,7 @@ package main
 
 import (
 	escposgo "escpos-go"
+	"fmt"
 	"log"
 	"log/slog"
 )
@@ -32,5 +33,17 @@ func main() {
 	err = printer.PrintDocument(document)
 	if err != nil {
 		slog.Info("error occured while printing", "err", err)
+	}
+
+	// Print some message from the user
+	var feedback = escposgo.NewDocument()
+
+	feedback.Add(escposgo.NewTitle("New feedback!"))
+	feedback.Add(escposgo.NewBody("Hello, this is a simple mesage to tell you your app is amazing. Thank you so much for making it free.").NewLine())
+	feedback.Add(escposgo.NewBody("Mathieu."))
+
+	err = printer.PrintDocument(feedback)
+	if err != nil {
+		fmt.Println(err)
 	}
 }

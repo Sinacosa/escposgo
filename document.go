@@ -109,7 +109,7 @@ type Row struct {
 }
 
 func (r Row) ToBytes() []byte {
-	numSpaces := PAGE_WIDTH - (len(r.Left) + len(r.Right))
+	numSpaces := PAGE_WIDTH - (len(r.Left) + len(r.Right)) // calculate number of spaces between Left and Right strings
 	bytes := []byte{}
 	bytes = append(bytes, []byte(r.Left)...)
 	for i := 0; i < numSpaces; i++ {
