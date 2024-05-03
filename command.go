@@ -48,7 +48,7 @@ func (cmd Command) toByteArray() []byte {
 	return cmd.data
 }
 
-func MergeCommands(commands []Command) []byte {
+func mergeCommands(commands []Command) []byte {
 	var data []byte
 
 	for _, c := range commands {

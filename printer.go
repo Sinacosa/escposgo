@@ -100,7 +100,7 @@ func (p *Printer) SimplePrint(message string) {
 		eotCommand,
 	}
 
-	p.Print(MergeCommands(commands))
+	p.Print(mergeCommands(commands))
 }
 
 func (p *Printer) PrintDocument(doc *Document) error {
