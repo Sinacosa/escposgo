@@ -84,17 +84,14 @@ type Table struct {
 }
 
 func (t *Table) ToBytes() []byte {
-	// encode the title data
-	// measure the spaces
 	bytes := []byte{}
-	bytes = append(bytes, t.Header.ToBytes()...)
-	// add the separator
-	bytes = append(bytes, NewSeparator('=').ToBytes()...)
+	bytes = append(bytes, t.Header.ToBytes()...)          // add the header
+	bytes = append(bytes, NewSeparator('=').ToBytes()...) // add the separator
 	for _, row := range t.Rows {
-		bytes = append(bytes, row.ToBytes()...)
+		bytes = append(bytes, row.ToBytes()...) // add the rows
 	}
-	bytes = append(bytes, NewSeparator('=').ToBytes()...)
-	bytes = append(bytes, t.Footer.ToBytes()...)
+	bytes = append(bytes, NewSeparator('=').ToBytes()...) // add the separator
+	bytes = append(bytes, t.Footer.ToBytes()...)          // add the footer
 	return bytes
 }
 
