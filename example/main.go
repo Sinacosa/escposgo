@@ -1,7 +1,7 @@
 package main
 
 import (
-	escposgo "escpos-go"
+	"escposgo"
 	"fmt"
 	"log"
 	"log/slog"

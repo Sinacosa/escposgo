@@ -1,4 +1,4 @@
-module escpos-go
+module escposgo
 
 go 1.22.1
 
